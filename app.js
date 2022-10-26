@@ -1,15 +1,22 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 
+const app = express()
 // Router
 const registerRoutes = require('./routes/api')
-const app = express()
+// Cors
+
+
 
 require('dotenv/config');
 // const api = process.env.API_URL;
 
 app.use(express.json());
-app.use('/api', registerRoutes)
+app.use(express.urlencoded({extended: true}))
+app.use(cors())
+app.use('/auth', registerRoutes)
+
 
 mongoose.connect(process.env.CONNECTION_STRING, {
     useNewUrlParser:true,
@@ -23,7 +30,8 @@ mongoose.connect(process.env.CONNECTION_STRING, {
     console.log(err)
 })
 
-// app.listen(3000, ()=>{
-//     // console.log('server is running http://localhost:3000')
-//     console.log(api);
-// })
+// const PORT = process.env.PORT 
+app.listen(3000, ()=>{
+    console.log(`Running Port :  3000`)
+    // console.log(api);
+})

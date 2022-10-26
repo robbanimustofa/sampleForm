@@ -1,4 +1,4 @@
-const User = require("../models/User.js");
+const {User} = require('../models/User.js')
 
 // class AuthController {
 //     async register(req,res){
@@ -12,17 +12,26 @@ const User = require("../models/User.js");
 //     }
 // }
 
-// module.export = new AuthController();
+// module.exports = new AuthController();
 
 const registerUsers = async (req,res)=>{
     try {
-        const userSchema = await User.create(req.body)
-        return res.status(201).json(userSchema)
+        const register = await User.create(req.body)
+        if(!register){throw{code:500,message:"USER_REGISTER_FAILED"}}
+        return res.status(201).json({message:'Berhasil Membuat Akun', status:201,register})
     } catch (error) {
-        return res.status(500).json({message: error.message})
+        return res.status(error.code || 500).json({status:false,message: error.message})
     }
 }
 
-module.export = {
-    registerUsers
+const coba1 = async (req,res)=>{
+    try {
+        res.json({tittle:'Hello World'})
+    } catch (error) {
+        
+    }
+}
+
+module.exports = {
+    registerUsers, coba1
 };
